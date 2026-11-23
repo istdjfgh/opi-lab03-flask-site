@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "_macros.html" import game_card with context %}
+{% set cat = categories[game.category] %}
+{% block title %}{{ game.title }}{% endblock %}
+{% block content %}
+<div class="container">
+    <nav class="breadcrumbs" aria-label="Навігаційний ланцюжок">
+        <a href="{{ url_for('home') }}">Головна</a> ›
+        <a href="{{ url_for('catalog') }}">Каталог</a> ›
+        <a href="{{ url_for('catalog') }}#{{ game.category }}">{{ cat.title }}</a> ›
+        <span aria-current="page">{{ game.title }}</span>
+    </nav>
+
+    <article class="game-detail">
+        <div class="game-detail-cover" style="--cat: {{ cat.color }}" aria-hidden="true">{{ game.emoji }}</div>
+        <div>
+            <span class="badge" style="--cat: {{ cat.color }}">{{ cat.emoji }} {{ cat.title }}</span>
+            {% if game.bestseller %}<span class="badge badge-hot">🔥 Хіт продажів</span>{% endif %}
+            <h1>{{ game.title }}</h1>
+            <p class="lead">{{ game.short }}</p>
+            <p>{{ game.description }}</p>
+
+            <dl class="specs">
+                <div><dt>Гравців</dt><dd>{{ game.players }}</dd></div>
+                <div><dt>Вік</dt><dd>{{ game.age }}</dd></div>
+                <div><dt>Партія</dt><dd>{{ game.minutes }} хв</dd></div>
+            </dl>
+
+            <div class="buy-box">
+                <span class="price price-big">{{ game.price | price }}</span>
+                <a class="btn btn-primary" href="{{ url_for('contacts') }}">Замовити телефоном</a>
+            </div>
+            <p class="muted small">Онлайн-кошик з’явиться в наступній версії сайту (лабораторна 04).</p>
+        </div>
+    </article>
+
+    {% if related %}
+        <section class="section">
+            <h2>Схожі ігри</h2>
+            <div class="game-grid">{% for item in related %}{{ game_card(item) }}{% endfor %}</div>
+        </section>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_macros.html" import game_card, page_header with context %}
+{% block title %}Каталог{% endblock %}
+{% block content %}
+{{ page_header('Каталог', 'Настільні ігри', 'У каталозі ' ~ total ~ ' ігор у ' ~ groups | length ~ ' категоріях. Оберіть гру під свою компанію.') }}
+
+<div class="container">
+    <nav class="category-chips" aria-label="Категорії">
+        {% for key, cat, games in groups %}
+            <a class="chip" style="--cat: {{ cat.color }}" href="#{{ key }}">{{ cat.emoji }} {{ cat.title }} <small>{{ games | length }}</small></a>
+        {% endfor %}
+    </nav>
+
+    {% for key, cat, games in groups %}
+        <section class="section catalog-group" id="{{ key }}" aria-labelledby="h-{{ key }}">
+            <h2 id="h-{{ key }}">{{ cat.emoji }} {{ cat.title }}</h2>
+            <div class="game-grid">
+                {% for game in games | sort(attribute='price') %}{{ game_card(game) }}{% endfor %}
+            </div>
+        </section>
+    {% endfor %}
+</div>
+{% endblock %}

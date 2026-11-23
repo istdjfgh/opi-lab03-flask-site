@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% from "_macros.html" import game_card with context %}
+{% block title %}Головна{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <p class="eyebrow">Магазин настільних ігор · {{ shop.city }}</p>
+            <h1>Збирайте друзів — <span class="accent">гру ми підберемо</span></h1>
+            <p class="lead">«{{ shop.name }}» — це сотні настільних ігор для сім’ї, вечірок і тих, хто любить подумати.
+                Пояснимо правила, порадимо новинку й доставимо за 1–2 дні.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="{{ url_for('catalog') }}">Перейти до каталогу</a>
+                <a class="btn btn-ghost" href="{{ url_for('about') }}">Дізнатися про нас</a>
+            </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+            <span class="die die-1">⚀</span><span class="die die-2">⚄</span>
+            <span class="die die-3">♟</span><span class="die die-4">🃏</span>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="advantages">
+            {% for icon, title, text in advantages %}
+                <article class="advantage">
+                    <span class="advantage-icon" aria-hidden="true">{{ icon }}</span>
+                    <h2>{{ title }}</h2>
+                    <p class="muted">{{ text }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <h2>Хіти продажів</h2>
+            <a href="{{ url_for('catalog') }}">Увесь каталог →</a>
+        </div>
+        <div class="game-grid">
+            {% for game in bestsellers %}{{ game_card(game) }}{% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2>Категорії</h2>
+        <div class="category-chips">
+            {% for key, cat in categories.items() %}
+                <a class="chip" style="--cat: {{ cat.color }}" href="{{ url_for('catalog') }}#{{ key }}">{{ cat.emoji }} {{ cat.title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container cta">
+        <div>
+            <h2>Ігровий вечір щосуботи</h2>
+            <p>Приходьте з 18:00 — спробуйте новинки перед покупкою разом з нашими консультантами.</p>
+        </div>
+        <a class="btn btn-light" href="{{ url_for('contacts') }}">Як нас знайти</a>
+    </div>
+</section>
+{% endblock %}

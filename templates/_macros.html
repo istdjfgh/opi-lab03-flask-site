@@ -1,0 +1,35 @@
+{# Макроси — повторно використовувані фрагменти розмітки (як функції в Python). #}
+
+{% macro game_card(game) %}
+{% set cat = categories[game.category] %}
+<article class="game-card">
+    <a class="game-cover" href="{{ url_for('game', slug=game.slug) }}" style="--cat: {{ cat.color }}" tabindex="-1" aria-hidden="true">
+        <span>{{ game.emoji }}</span>
+        {% if game.bestseller %}<span class="ribbon">Хіт продажів</span>{% endif %}
+    </a>
+    <div class="game-body">
+        <span class="badge" style="--cat: {{ cat.color }}">{{ cat.emoji }} {{ cat.title }}</span>
+        <h3><a href="{{ url_for('game', slug=game.slug) }}">{{ game.title }}</a></h3>
+        <p class="muted">{{ game.short }}</p>
+        <ul class="game-facts" aria-label="Характеристики">
+            <li title="Кількість гравців">👥 {{ game.players }}</li>
+            <li title="Вік">🎂 {{ game.age }}</li>
+            <li title="Тривалість партії">⏱ {{ game.minutes }} хв</li>
+        </ul>
+        <div class="game-footer">
+            <span class="price">{{ game.price | price }}</span>
+            <a class="btn btn-small btn-ghost" href="{{ url_for('game', slug=game.slug) }}">Детальніше</a>
+        </div>
+    </div>
+</article>
+{% endmacro %}
+
+{% macro page_header(eyebrow, title, lead='') %}
+<section class="page-header">
+    <div class="container">
+        <p class="eyebrow">{{ eyebrow }}</p>
+        <h1>{{ title }}</h1>
+        {% if lead %}<p class="lead">{{ lead }}</p>{% endif %}
+    </div>
+</section>
+{% endmacro %}

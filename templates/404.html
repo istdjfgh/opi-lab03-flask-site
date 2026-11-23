@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Сторінку не знайдено{% endblock %}
+{% block content %}
+<section class="container error-page">
+    <p class="error-code">404</p>
+    <h1>Такої сторінки немає</h1>
+    <p class="lead">Можливо, гру прибрали з каталогу або в адресі помилка.</p>
+    <a class="btn btn-primary" href="{{ url_for('catalog') }}">До каталогу</a>
+</section>
+{% endblock %}
